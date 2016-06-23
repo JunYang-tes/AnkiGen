@@ -1,4 +1,4 @@
-from Parser import Parser,SeparatorParser,TurnParser,MulLineTurn
+from Parser import *
 from Formatter import HTML,RegHTML,RegStyle
 import sys
 import json
@@ -25,15 +25,18 @@ if __name__=='__main__':
         #parser = SeparatorParser(input_file,sp=['='])
         parser = MulLineTurn(input_file)
         #parser = Parser(io.open(file,encoding='utf-8'))
-        #parser = TurnParser(input_file)
-        formatter = RegHTML(
+        parser = TurnParser(input_file)
+        '''formatter = RegHTML(
             question_style=[
                 RegStyle(re.compile('[a-zA-Z \-,]+'),'#2483E4')
             ],
             answer_style=[
             RegStyle(re.compile('^\s*[a-zA-Z\-]*\s[a-zA-Z]{1,4}\.'),'red'),
             RegStyle(re.compile('.*'),'#00FFC4')
-        ])
+        ])'''
+        formatter = HTML('blue')
+        #parser=TextRank(input_file)
+
         format(parser.parse(),io.open(file+".fmt.txt",'w',encoding='utf-8'),formatter)
     else:
         print 'Usage:%s filename'%(sys.argv[0])

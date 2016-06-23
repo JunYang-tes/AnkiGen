@@ -78,6 +78,8 @@ class LineBasedParser:
         items=[]
         for line in self.file:
             line=line.strip()
+            if len(line)==0 :
+                continue
             try:
                 line=unicode(line,'utf-8')
             except TypeError:
@@ -152,3 +154,11 @@ class MulLineTurn(LineBasedParser):
             if self.item is not None:
                 self.item["answer"].append(line)
             return (True,None)
+class TextRank(LineBasedParser):
+    def __init__(self,readable):
+        LineBasedParser.__init__(self,readable)
+        from snownlp import SnowNLP
+        self.SnowNLP=SnowNLP
+    def parse_(self,line):
+        s=self.SnowNLP(line);
+        return (True,{'answer':line,'question':",".join(s.keywords(3))})
